@@ -1,5 +1,8 @@
 pipeline {
     agent { label 'ubuntu' }
+    environment {
+        IMAGE_VERSION = "1.3"
+    }
 
     stages {
         stage('Git Checkout') {
@@ -14,21 +17,21 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t anastasiamoiseenko/webapp:1.2 .'
+                sh "docker build -t anastasiamoiseenko/webapp:$IMAGE_VERSION ."
             }
         }
         stage('Push Docker Image') {
             steps {
                 withDockerRegistry(credentialsId: 'dockerhub-cred', url: 'https://index.docker.io/v1/') {
-                    sh '''
-                        docker push anastasiamoiseenko/webapp:1.2
-                    '''
+                    sh """
+                        docker push anastasiamoiseenko/webapp:$IMAGE_VERSION
+                    """
                 }
             }
         }
         stage('Delete Docker Image Locally') {
             steps {
-                sh 'docker rmi anastasiamoiseenko/webapp:1.2'
+                sh "docker rmi anastasiamoiseenko/webapp:$IMAGE_VERSION"
             }
         }
         stage('Stop and Remove old Containers on Web Server') {
@@ -42,7 +45,7 @@ pipeline {
         stage('Run Container on Web Server') {
             steps {
                 sshagent(['ssh-agent-webserver']) {
-                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.16.236 docker run -p 8080:8080 -d --name webapp anastasiamoiseenko/webapp:1.2'
+                    sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.16.236 docker run -p 8080:8080 -d --name webapp anastasiamoiseenko/webapp:$IMAGE_VERSION"
                 }
             }
         }
