@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'ubuntu' }
     environment {
-        IMAGE_VERSION = "1.4"
+        IMAGE_VERSION = "1.${BUILD_NUMBER}"
     }
 
     stages {
