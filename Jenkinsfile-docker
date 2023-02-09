@@ -12,7 +12,7 @@ pipeline {
         }
         stage ('Copy Artifacts') {
             steps {
-                s3CopyArtifact buildSelector: lastSuccessful(), excludeFilter: '', filter: 'Mvn_Build/target/WebApp.war', flatten: false, optional: false, projectName: 'Mvn_Build', target: ''
+                s3CopyArtifact buildSelector: lastSuccessful(), excludeFilter: '', filter: 'target/WebApp.war', flatten: false, optional: false, projectName: 'Mvn_Build', target: 'target'
             }
         }
         stage('Build Docker Image') {
