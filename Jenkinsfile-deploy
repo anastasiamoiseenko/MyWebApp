@@ -1,9 +1,5 @@
 pipeline {
     agent { label 'ubuntu' }
-    environment {
-        IMAGE_VERSION = "1.${BUILD_NUMBER}"
-    }
-
     stages {
         stage('Stop and Remove old Containers on Web Server') {
             steps {
@@ -16,7 +12,7 @@ pipeline {
         stage('Run Container on Web Server') {
             steps {
                 sshagent(['ssh-agent-webserver']) {
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.16.236 docker run -p 8080:8080 -d --name webapp anastasiamoiseenko/webapp:$IMAGE_VERSION"
+                    sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.16.236 docker run -p 8080:8080 -d --name webapp anastasiamoiseenko/webapp:latest"
                 }
             }
         }

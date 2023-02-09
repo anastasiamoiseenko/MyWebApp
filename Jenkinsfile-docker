@@ -12,7 +12,7 @@ pipeline {
         }
         stage ('Copy Artifacts') {
             steps {
-                copyArtifacts filter: '**/WebApp/target/*war', fingerprintArtifacts: true, projectName: 'Mvn_Build'
+                copyArtifacts filter: '**/*war', fingerprintArtifacts: true, projectName: 'Mvn_Build'
             }
         }
         stage('Build Docker Image') {
