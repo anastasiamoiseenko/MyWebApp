@@ -10,9 +10,9 @@ pipeline {
                 git branch: 'main', credentialsId: 'github-ssh', url: 'git@github.com:anastasiamoiseenko/MyWebApp.git'
             }
         }
-        stage('Build') {
+        stage ('Copy Artifacts') {
             steps {
-                sh 'mvn clean package'
+                copyArtifacts filter: '**/WebApp/target/*war', fingerprintArtifacts: true, projectName: 'Mvn_Build'
             }
         }
         stage('Build Docker Image') {
@@ -32,21 +32,6 @@ pipeline {
         stage('Delete Docker Image Locally') {
             steps {
                 sh "docker rmi anastasiamoiseenko/webapp:$IMAGE_VERSION"
-            }
-        }
-        stage('Stop and Remove old Containers on Web Server') {
-            steps {
-                sshagent(['ssh-agent-webserver']) {
-                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.16.236 docker stop webapp'
-                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.16.236 docker container rm -f webapp'
-                }
-            }
-        }
-        stage('Run Container on Web Server') {
-            steps {
-                sshagent(['ssh-agent-webserver']) {
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.16.236 docker run -p 8080:8080 -d --name webapp anastasiamoiseenko/webapp:$IMAGE_VERSION"
-                }
             }
         }
     }
