@@ -4,7 +4,14 @@ pipeline {
         IMAGE_VERSION = "1.${BUILD_NUMBER}"
     }
     stages {
-     
+        stage('Stop and Remove old Containers on Web Server') {
+            steps {
+                sshagent(['ssh-agent-webserver']) {
+                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.16.236 docker stop webapp'
+                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.16.236 docker container rm -f webapp'
+                }
+            }
+        }   
         stage('Run Container on Web Server') {
             steps {
                 sshagent(['ssh-agent-webserver']) {
