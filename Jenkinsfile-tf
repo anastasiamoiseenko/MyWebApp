@@ -10,6 +10,9 @@ pipeline {
     stage('Init TF') {
       steps {
         sh '''
+          ls -al
+          sed -i "s//home/ubuntu/.aws/credentials|/root/.aws/credentials/g" main.tf
+          cat main.tf
           terraform init
         '''
       }
