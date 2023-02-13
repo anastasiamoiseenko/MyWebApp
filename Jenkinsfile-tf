@@ -3,7 +3,6 @@ pipeline {
   environment {
     IMAGE_VERSION = "1.${BUILD_NUMBER}"
     TF_IN_AUTOMATION = 'true'
-    AWS_SHARED_CREDENTIALS_FILE='/root/.aws/credentials'
   }
 
   stages {
@@ -15,9 +14,6 @@ pipeline {
     stage('Init TF') {
       steps {
         sh '''
-          ls -al
-          sed -i "s|/home/ubuntu/.aws/credentials|/root/.aws/credentials|g" main.tf
-          cat main.tf
           terraform init
         '''
       }
