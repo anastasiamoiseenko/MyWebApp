@@ -16,7 +16,7 @@ pipeline {
       steps {
         sh '''
           ls -al
-          sed -i "s|["$HOME/.aws/credentials"]|["/root/.aws/credentials"]|g" main.tf
+          sed -i "s|/home/dungpham/.aws/credentials|/root/.aws/credentials|g" main.tf
           cat main.tf
           terraform init
         '''
