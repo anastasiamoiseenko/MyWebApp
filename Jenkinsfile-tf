@@ -1,5 +1,5 @@
 pipeline {
-  agent ubuntu
+  agent { label 'ubuntu' }
   environment {
     IMAGE_VERSION = "1.${BUILD_NUMBER}"
     TF_IN_AUTOMATION = 'true'
