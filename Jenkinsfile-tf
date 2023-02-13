@@ -7,11 +7,16 @@ pipeline {
   }
 
   stages {
+      stage('Git Checkout') {
+            steps {
+                git branch: 'main', credentialsId: 'github-ssh', url: 'git@github.com:anastasiamoiseenko/MyWebApp.git'
+            }
+        }
     stage('Init TF') {
       steps {
         sh '''
           ls -al
-          sed -i "s|["$HOME/.aws/credentials"]|[/root/.aws/credentials]|g" main.tf
+          sed -i "s|["$HOME/.aws/credentials"]|["/root/.aws/credentials"]|g" main.tf
           cat main.tf
           terraform init
         '''
