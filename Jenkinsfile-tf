@@ -1,11 +1,11 @@
 pipeline {
   agent { label 'ubuntu' }
   environment {
-        TF_IN_AUTOMATION = 'true'
-        AWS_SHARED_CREDENTIALS_FILE='/root/.aws/credentials'
+    TF_IN_AUTOMATION = 'true'
+    AWS_SHARED_CREDENTIALS_FILE='/root/.aws/credentials'
     }
   parameters {
-        string description: 'Docker Image version', name: 'IMAGE_VERSION'
+    string description: 'Docker Image version', name: 'IMAGE_VERSION'
   }
 
   stages {
@@ -53,6 +53,7 @@ pipeline {
         sh '''
           echo $(terraform output -json webapp-server_public_ip) | awk -F'"' '{print $2}' > aws_hosts
           cat aws_hosts
+          mv aws_hosts /home/ubuntu/jenkins/workspace/Ansible_Deploy/
         '''
       }
     }
