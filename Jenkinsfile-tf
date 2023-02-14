@@ -15,9 +15,6 @@ pipeline {
     stage('Init TF') {
       steps {
         sh '''
-          ls -al
-          sed -i "s|$HOME/.aws/credentials|/root/.aws/credentials|g" main.tf
-          cat main.tf
           terraform init
         '''
       }
@@ -44,7 +41,7 @@ pipeline {
     stage('Apply TF') {
       steps {
         sh '''
-          terraform apply -auto-approve
+          terraform apply --auto-approve
         '''
       }
     }
