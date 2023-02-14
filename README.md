@@ -17,7 +17,7 @@ Therefore, here are the main goals of the project:
 ## 1. Create a S3 bucket for remote backend storing
 This step can be done from local machine. Move to s3-backend folder and run terraform init/plan/apply. The "webapp-s3-backend" S3 bucket and DynamoDB table will be created.
 
-![Image alt](https://github.com/anastasiamoiseenko/MyWebApp/raw/main/screenshots/S3_backend.png)
+![Image alt](https://github.com/anastasiamoiseenko/MyWebApp/raw/main/screenshots/s3_backend.png)
 
 ## 2. Install and Configure Jenkins Server and Jenkins Agent
 ### Jenkins Server required installations:
@@ -45,7 +45,7 @@ I have created both Jenkins Server and Jenkins Agent in AWS
 
 ## 3. Create Pipelines in Jenkins
 
-![Image alt](https://github.com/anastasiamoiseenko/MyWebApp/raw/main/screenshots/jenkns_jobs.png)
+![Image alt](https://github.com/anastasiamoiseenko/MyWebApp/raw/main/screenshots/11.jenkns_jobs.png)
 
 These jobs represent the following flow:
 
