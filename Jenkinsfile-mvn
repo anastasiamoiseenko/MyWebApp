@@ -20,5 +20,12 @@ pipeline {
                 s3Upload consoleLogLevel: 'INFO', dontSetBuildResultOnFailure: false, dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'jenkins-webapp-artifacts', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: true, noUploadOnFailure: true, selectedRegion: 'eu-central-1', showDirectlyInBrowser: false, sourceFile: 'target/WebApp.war', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'S3-artifact', userMetadata: []
             }
         }
+        stage('Start Build_Docker_Image pipeline') {
+            steps {
+                build job: 'Build_Docker_Image', propagate: false, wait: false, parameters: [
+                    string(name: 'IMAGE_VERSION', value: "${IMAGE_VERSION}")]
+            }
+        }
+
     }
 }

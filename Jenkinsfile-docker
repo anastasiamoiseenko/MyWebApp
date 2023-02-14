@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'ubuntu' }
-    environment {
-        IMAGE_VERSION = "1.${BUILD_NUMBER}"
+    parameters {
+        string description: 'Docker Image version', name: 'IMAGE_VERSION'
     }
 
     stages {
@@ -34,5 +34,11 @@ pipeline {
                 sh "docker rmi anastasiamoiseenko/webapp:$IMAGE_VERSION"
             }
         }
+        stage('Start Terraform_Infrastructure pipeline') {
+            steps {
+                build job: 'Terraform_Infrastructure', propagate: false, wait: false, parameters: [
+                    string(name: 'IMAGE_VERSION', value: "${IMAGE_VERSION}")]
+            }
+        } 
     }
 }

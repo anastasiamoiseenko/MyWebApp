@@ -1,0 +1,27 @@
+ pipeline {
+  agent { label 'ubuntu' }
+  environment {
+    TF_IN_AUTOMATION = 'true'
+    AWS_SHARED_CREDENTIALS_FILE='/root/.aws/credentials'
+  }
+
+  stages {   
+    stage('Validate Destroy') {
+      input {
+        message "Do you want to destroy Terraform Infra?"
+        ok "Destroy"
+      }
+      steps {
+        echo "Destroy Accepted"
+      }
+    }
+
+    stage('Destroy TF') {
+      steps {
+        sh '''
+          terraform destroy -auto-approve
+        '''
+      }
+    }
+  }
+ }
