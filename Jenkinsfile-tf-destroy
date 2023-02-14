@@ -5,7 +5,14 @@
     AWS_SHARED_CREDENTIALS_FILE='/root/.aws/credentials'
   }
 
-  stages {   
+  stages {
+    stage('Init TF') {
+      steps {
+        sh '''
+          terraform init
+        '''
+      }
+    }   
     stage('Validate Destroy') {
       input {
         message "Do you want to destroy Terraform Infra?"
