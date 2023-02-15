@@ -51,9 +51,8 @@ pipeline {
     stage('Print Inventory') {
       steps {
         sh '''
-          echo $(terraform output -json webapp-server_public_ip) | awk -F'"' '{print $2}' > aws_hosts
-          cat aws_hosts
-          mv aws_hosts /home/ubuntu/jenkins/workspace/Ansible_Deploy/
+          echo $(terraform output -json webapp-server_public_ip) | awk -F'"' '{print $2}' > /home/ubuntu/jenkins/workspace/Ansible_Deploy/aws_hosts
+          cat /home/ubuntu/jenkins/workspace/Ansible_Deploy/aws_hosts
         '''
       }
     }
